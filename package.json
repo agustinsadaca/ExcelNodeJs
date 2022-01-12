@@ -1,0 +1,25 @@
+{
+  "name": "excel",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/agustinsadaca/ExcelNodeJs.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/agustinsadaca/ExcelNodeJs/issues"
+  },
+  "homepage": "https://github.com/agustinsadaca/ExcelNodeJs#readme",
+  "dependencies": {
+    "excel4node": "^1.7.2",
+    "express": "^4.17.2",
+    "read-excel-file": "^5.2.25"
+  }
+}
