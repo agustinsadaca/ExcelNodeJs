@@ -1,22 +1,75 @@
-// Require library
-var excel = require('excel4node');
+const {readExcel} = require("./readExcel");
+const writeExcel = require("./writeExcel");
+const express = require("express");
+const app = express();
+const handlebars = require("express-handlebars");
 
-// Create a new instance of a Workbook class
-var workbook = new excel.Workbook();
+var bodyParser = require("body-parser");
+var multer = require("multer");
 
-// Add Worksheets to the workbook
-var worksheet = workbook.addWorksheet('Sheet 1');
-var worksheet2 = workbook.addWorksheet('Sheet 2');
 
-// Create a reusable style
-var style = workbook.createStyle({
-  font: {
-    color: '#FF0800',
-    size: 12
-  },
-  numberFormat: '$#,##0.00; ($#,##0.00); -'
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "http://localhost");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
 });
-// Set value of cell A1 to 100 as a number type styled with paramaters of style
-worksheet.cell(1,1).number(100).style(style);
+/** Serving from the same express Server
+    No cors required */
+app.use(express.static("../client"));
+app.use(bodyParser.json());
+var storage = multer.diskStorage({
+  //multers disk storage settings
+  destination: function (req, file, cb) {
+    cb(null, "./uploads/");
+  },
+  filename: function (req, file, cb) {
+    var datetimestamp = Date.now();
+    cb(
+      null,
+      file.fieldname +
+        "-" +
+        datetimestamp +
+        "." +
+        file.originalname.split(".")[file.originalname.split(".").length - 1]
+    );
+  },
+});
+var upload = multer({
+  //multer settings
+  storage:storage
+})
+/** API path that will upload the files */
 
-workbook.write('Excel.xlsx');
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.engine(
+  "hbs",
+  handlebars({
+    extname: ".hbs",
+    defaultLayout: "index.hbs",
+    layoutsDir: __dirname + "/views/layouts",
+    partialsDir: __dirname + "/views/partials",
+  })
+);
+
+app.use(express.static("public"));
+
+app.set("views", "./views");
+app.set("view engine", "hbs");
+
+app.post("/excel", upload.single("file"),function (req, res, next) {
+    readExcel(req.file.filename);
+	// console.log(req.file);
+// });
+});
+
+app.get("/", (req, res) => {
+  res.render("./layouts/index", {
+    layout: "index",
+  });
+});
+
+app.listen(8080, () => console.log("Server started on 8080"));
