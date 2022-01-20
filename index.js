@@ -7,6 +7,7 @@ const http = require("http"); // or 'https' for https:// URLs
 const fs = require("fs");
 const url = require("url");
 
+port = process.env.PORT || 80
 var bodyParser = require("body-parser");
 var multer = require("multer");
 
@@ -79,4 +80,4 @@ app.get("/", (req, res) => {
   });
 });
 
-app.listen(3000, () => console.log("Server started on 8080"));
+app.listen(port, () => console.log("Server started on 3000"));
