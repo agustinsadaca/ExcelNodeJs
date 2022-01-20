@@ -3,9 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "node": "16.x"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon --config nodemon.json --inspect ./index.js"
+    "start": "node ./index.js"
   },
   "repository": {
     "type": "git",
@@ -30,4 +33,5 @@
     "multer": "^1.4.4",
     "read-excel-file": "^5.2.25"
   }
+  
 }
