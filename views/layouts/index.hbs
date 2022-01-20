@@ -1,3 +1,10 @@
+<script>
+  window.onload = function() { 
+  const urlParams = new URLSearchParams(window.location.search); 
+  let direccion = urlParams.get('direccionExcel') 
+  const domain = window.location.hostname 
+  let elem = document.getElementById('hiddenP').value = window.location.search }
+</script>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -10,11 +17,15 @@
   <body>
     <form action="/excel" method="POST" enctype="multipart/form-data">
       <input type="file" name="file" />
-      <input type="submit" />     
+      <input type="submit" />
     </form>
+    <form id="downloadExcel" action="/download" method="GET">
+      <input id="hiddenP" type="hidden" name="tab" value="" />
+      <input type="submit" id="buttonDescargar" value="Descargar Excel" />
+    </form>
+
   </body>
 </html>
 <style>
-  button{ margin: 15px; }
 
 </style>

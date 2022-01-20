@@ -1,12 +1,14 @@
-const {readExcel} = require("./readExcel");
+const { readExcel } = require("./readExcel");
 const writeExcel = require("./writeExcel");
 const express = require("express");
 const app = express();
 const handlebars = require("express-handlebars");
+const http = require("http"); // or 'https' for https:// URLs
+const fs = require("fs");
+const url = require("url");
 
 var bodyParser = require("body-parser");
 var multer = require("multer");
-
 
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "http://localhost");
@@ -39,8 +41,8 @@ var storage = multer.diskStorage({
 });
 var upload = multer({
   //multer settings
-  storage:storage
-})
+  storage: storage,
+});
 /** API path that will upload the files */
 
 app.use(express.json());
@@ -60,13 +62,18 @@ app.use(express.static("public"));
 app.set("views", "./views");
 app.set("view engine", "hbs");
 
-app.post("/excel", upload.single("file"),function (req, res, next) {
-    readExcel(req.file.filename);
-	// console.log(req.file);
-// });
+app.post("/excel", upload.single("file"), readExcel, function (req, res, next) {
+  
+});
+app.get("/download", function (req, res) {
+  const urlParams = new URLSearchParams(req.query.tab);
+  let direccion = urlParams.get("direccionExcel");
+  const file = `${__dirname}/` + direccion;
+  res.download(file); // Set disposition and send it.
 });
 
 app.get("/", (req, res) => {
+
   res.render("./layouts/index", {
     layout: "index",
   });

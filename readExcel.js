@@ -1,10 +1,13 @@
 const csv = require('csv-parser');
 const fs = require("fs")
 const {writeExcel} = require("./writeExcel");
+const url = require('url');    
 
 
-const readExcel = async(filename) => {
+
+const readExcel = async(req, res, next) => {
   let jsonExcel = []
+  let filename = req.file.filename
   let read = await fs.createReadStream(`uploads/${filename}`)
   .pipe(csv({ skipLines:1}))
   .on('data', (row) => {
@@ -12,7 +15,14 @@ const readExcel = async(filename) => {
   })
   .on('end', () => {
     console.log('CSV file successfully processed');
-    writeExcel(jsonExcel,filename)
+    let direccionExcel = writeExcel(jsonExcel,filename)
+    res.redirect(url.format({
+      pathname:"/",
+      query: {
+         "direccionExcel":direccionExcel
+       }
+    }))
   });
+  
 };
 module.exports = {readExcel}
