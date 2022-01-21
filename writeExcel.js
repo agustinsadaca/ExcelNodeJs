@@ -90,7 +90,7 @@ for (let index = 0; index < jsonExcel.length; index++) {
     worksheet.cell(index+2,35).string('1').style(style);
     worksheet.cell(index+2,36).string('Almacen').style(style);
     worksheet.cell(index+2,39).string('21').style(style);
-    worksheet.cell(index+2,40).number(parseFloat(jsonExcel[index]['MONTO_BRUTO'])*0.79).style(style);
+    worksheet.cell(index+2,40).number(parseFloat(jsonExcel[index]['MONTO_BRUTO'])/1.21).style(style);
     
     // let excelDate = dateFormaterDDMMYYYYxMMDDYYYY(jsonExcel[index]['PRESENTACION'])
     // let modifiedDate = calculateModifiedDate(excelDate)
