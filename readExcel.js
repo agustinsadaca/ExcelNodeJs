@@ -9,9 +9,9 @@ const readExcel = async (req, res, next) => {
   let csvConfig 
   switch (req.url) {
     case "/excel":
-      csvConfig = { skipLines: 4, separator: ";" }     
+      csvConfig = { skipLines: 1 }     
     case "/excelBancoNacion":
-      csvConfig = { skipLines: 1}     
+      csvConfig = { skipLines: 4, separator: ";"}     
       break;
     default:
       break;
