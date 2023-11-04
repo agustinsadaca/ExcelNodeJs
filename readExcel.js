@@ -1,28 +1,49 @@
-const csv = require('csv-parser');
-const fs = require("fs")
-const {writeExcel} = require("./writeExcel");
-const url = require('url');    
+const csv = require("csv-parser");
+const fs = require("fs");
+const { writeExcel,writeExcelBancoNacion } = require("./writeExcel");
+const url = require("url");
 
-
-
-const readExcel = async(req, res, next) => {
-  let jsonExcel = []
-  let filename = req.file.filename
-  let read = await fs.createReadStream(`uploads/${filename}`)
-  .pipe(csv({ skipLines:1}))
-  .on('data', (row) => {
-    jsonExcel.push(row)
-  })
-  .on('end', () => {
-    console.log('CSV file successfully processed');
-    let direccionExcel = writeExcel(jsonExcel,filename)
-    res.redirect(url.format({
-      pathname:"/",
-      query: {
-         "direccionExcel":direccionExcel
-       }
-    }))
-  });
-  
+const readExcel = async (req, res, next) => {
+  let jsonExcel = [];
+  let filename = req.file.filename;
+  let csvConfig 
+  switch (req.url) {
+    case "/excel":
+      csvConfig = { skipLines: 4, separator: ";" }     
+    case "/excelBancoNacion":
+      csvConfig = { skipLines: 1}     
+      break;
+    default:
+      break;
+  }
+  let read = await fs
+    .createReadStream(`uploads/${filename}`)
+    .pipe(csv(csvConfig))
+    .on("data", (row) => {
+      jsonExcel.push(row);
+    })
+    .on("end", () => {
+      console.log("CSV file successfully processed");
+      console.log(req.url);
+      let direccionExcel 
+      switch (req.url) {
+        case "/excel":
+          direccionExcel = writeExcel(jsonExcel, filename);
+          break;
+        case "/excelBancoNacion":
+          direccionExcel = writeExcelBancoNacion(jsonExcel, filename);
+          break;
+        default:
+          break;
+      }
+      res.redirect(
+        url.format({
+          pathname: "/",
+          query: {
+            direccionExcel: direccionExcel,
+          },
+        })
+      );
+    });
 };
-module.exports = {readExcel}
+module.exports = { readExcel };

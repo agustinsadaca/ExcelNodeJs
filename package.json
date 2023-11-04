@@ -8,7 +8,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./index.js"
+    "start": "node ./index.js",
+    "dev": "nodemon ./index.js"
   },
   "repository": {
     "type": "git",
@@ -21,7 +22,7 @@
   },
   "homepage": "https://github.com/agustinsadaca/ExcelNodeJs#readme",
   "devDependencies": {
-    "nodemon": "^2.0.12"
+    "nodemon": "^2.0.22"
   },
   "dependencies": {
     "body-parser": "^1.19.1",
@@ -33,5 +34,4 @@
     "multer": "^1.4.4",
     "read-excel-file": "^5.2.25"
   }
-  
 }

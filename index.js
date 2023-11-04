@@ -63,9 +63,8 @@ app.use(express.static("public"));
 app.set("views", "./views");
 app.set("view engine", "hbs");
 
-app.post("/excel", upload.single("file"), readExcel, function (req, res, next) {
-  
-});
+app.post("/excel", upload.single("file"), readExcel, function (req, res, next) {});
+app.post("/excelBancoNacion", upload.single("file"), readExcel, function (req, res, next) {});
 app.get("/download", function (req, res) {
   const urlParams = new URLSearchParams(req.query.tab);
   let direccion = urlParams.get("direccionExcel");
@@ -80,4 +79,4 @@ app.get("/", (req, res) => {
   });
 });
 
-app.listen(port, () => console.log("Server started on 3000"));
+app.listen(port, () => console.log("Server started on "+ port));
