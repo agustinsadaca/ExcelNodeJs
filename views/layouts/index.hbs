@@ -2,8 +2,15 @@
   window.onload = function() { 
   const urlParams = new URLSearchParams(window.location.search); 
   let direccion = urlParams.get('direccionExcel') 
+  let error = urlParams.get('error') 
   const domain = window.location.hostname 
-  let elem = document.getElementById('hiddenP').value = window.location.search }
+  let elem = document.getElementById('hiddenP').value = window.location.search
+  if (error) {
+      const errorMessageDiv = document.getElementById('errorMessage');
+      errorMessageDiv.style.display = 'block';
+      errorMessageDiv.textContent = error; 
+    }  
+ }
 </script>
 <html lang="en">
   <head>
@@ -15,6 +22,8 @@
 
   </head>
   <body>
+  <div id="errorMessage" >
+  </div>
   <h1>Payway / Prisma</h1>
     <form action="/excel" method="POST" enctype="multipart/form-data">
       <input type="file" name="file" />

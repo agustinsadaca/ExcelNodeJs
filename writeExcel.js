@@ -63,16 +63,14 @@ var style2 = workbook.createStyle({
 
 });
 
-// Set value of cell A1 to 100 as a number type styled with paramaters of style
 let headers = ['RAZONSOCIAL','NRODOCUMENTO','TIPODOCUMENTO','DIRECCIONFISCAL','PROVINCIA','LOCALIDAD','CODIGOPOSTAL','PERCIBEIVA','PERCIBEIIBB','TRATAMIENTOIMPOSITIVO','ENVIARCOMPROBANTE','MAILFACTURACION','CONTACTO','TELEFONO','CONVENIOMULTILATERAL','ENVIARBOTONPAGO','NUMEROCOMPROBANTE','FECHAHORA','TIPOCOMPROBANTE','OBSERVACIONES','DESCUENTO','PERCEPCIONIVA','PERCEPCIONIIBB','ORDENCOMPRA','REMITO','IMPORTEIMPUESTOSINTERNOS','IMPORTEPERCEPCIONESMUNIC','MONEDA','TIPODECAMBIO','CONDICIONVENTA','PRODUCTOSERVICIO','FECHAVENCIMIENTO','FECHAINICIOABONO','FECHAFINABONO','CANTIDAD','DETALLE','CODIGO','BONIFICACION','IVA','PRECIOUNITARIO','CBU','ESANULACION','TRANSFERENCIA']
 for (let index = 0; index < headers.length; index++) {
     worksheet.cell(1,index+1).string(headers[index]).style(style2);
 }
-// let headers2 = ['TIPOCOMPROBANTE','NUMEROCOMPROBANTE','TIPOCOMPROBANTEASOCIADO','NUMEROCOMPROBANTEASOCIADO','FECHACOMPROBANTEASOCIADO']
-// for (let index = 0; index < headers2.length; index++) {
-  //     worksheet1.cell(1,index+1).string(headers2[index]).style(style);
-// }
+
 for (let index = 0; index < jsonExcel.length; index++) {
+  console.log(jsonExcel[index]['MONTO_BRUTO']);
+  
     worksheet.cell(index+2,1).string('Cliente generico de Prisma').style(style);
     worksheet.cell(index+2,2).string('1').style(style);
     worksheet.cell(index+2,3).string('DNI').style(style);
@@ -153,8 +151,8 @@ for (let index = 0; index < headers.length; index++) {
 //     worksheet1.cell(1,index+1).string(headers2[index]).style(style);
 // }
 for (let index = 0; index < jsonExcel.length; index++) {
-    console.log(parseFloat(jsonExcel[index].Monto.replace(/[^\d.-]/g, '')))
-
+    console.log(jsonExcel)
+    if(jsonExcel[index].Monto === undefined) return null
 
     worksheet.cell(index+2,1).string('Cliente generico de Banco Nacion').style(style);
     worksheet.cell(index+2,2).string('1').style(style);

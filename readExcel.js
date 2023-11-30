@@ -7,11 +7,23 @@ const readExcel = async (req, res, next) => {
   let jsonExcel = [];
   let filename = req.file.filename;
   let csvConfig 
+  console.log(filename);
+  if (!filename.toLowerCase().endsWith('.csv')) {
+    return res.redirect(
+      url.format({
+        pathname: "/",
+        query: {
+          error: "No es posible convertir el excel, el tipo de archivo no es csv",
+        },
+      })
+    );
+  }
   switch (req.url) {
     case "/excel":
-      csvConfig = { skipLines: 1 }     
+      csvConfig = { skipLines: 1, separator: "," } 
+      break    
     case "/excelBancoNacion":
-      csvConfig = { skipLines: 4, separator: ";"}     
+      csvConfig = { skipLines: 3, separator: ";"}     
       break;
     default:
       break;
@@ -24,7 +36,7 @@ const readExcel = async (req, res, next) => {
     })
     .on("end", () => {
       console.log("CSV file successfully processed");
-      console.log(req.url);
+      console.log(jsonExcel);
       let direccionExcel 
       switch (req.url) {
         case "/excel":
