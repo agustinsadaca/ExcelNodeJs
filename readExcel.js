@@ -23,7 +23,7 @@ const readExcel = async (req, res, next) => {
       csvConfig = { skipLines: 1, separator: "," } 
       break    
     case "/excelBancoNacion":
-      csvConfig = { skipLines: 3, separator: ";"}     
+      csvConfig = {separator: ";"}     
       break;
     default:
       break;
